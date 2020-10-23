@@ -5,9 +5,9 @@ import App from './App'
 import router from './router'
 import setAuthorizationToken from './helpers/axios'
 import {store} from './store/index'
-import Loading from 'vue-loading-overlay'
-import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 import './assets/scss/app.scss'
+import 'material-icons/iconfont/material-icons.css'
+import Vuesax from 'vuesax'
 
 Vue.config.productionTip = false
 
@@ -45,9 +45,7 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
-Vue.use(Loading)
-Vue.use(BootstrapVue)
-Vue.use(BootstrapVueIcons)
+Vue.use(Vuesax)
 
 /* eslint-disable no-new */
 new Vue({

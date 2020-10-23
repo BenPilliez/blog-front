@@ -1,6 +1,5 @@
 <template>
   <div>
-    <BlogNav/>
   </div>
 </template>
 

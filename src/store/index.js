@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import postsStore from './modules/posts'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,9 @@ export const store = new Vuex.Store(
       message: null
     },
 
-    modules: {},
+    modules: {
+      Posts: postsStore
+    },
     mutations: {
       message (state, message) {
         state.message = {
