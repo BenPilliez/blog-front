@@ -7,6 +7,7 @@ import setAuthorizationToken from './helpers/axios'
 import {store} from './store/index'
 import Loading from 'vue-loading-overlay'
 import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
+import './assets/scss/app.scss'
 
 Vue.config.productionTip = false
 
