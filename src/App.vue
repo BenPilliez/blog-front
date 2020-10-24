@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <BlogNav/>
-    <router-view/>
+    <v-app dark>
+      <BlogNav/>
+      <router-view/>
+    </v-app>
+
   </div>
 </template>
 
