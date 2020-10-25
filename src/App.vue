@@ -1,11 +1,19 @@
 <template>
-  <div id="app">
-    <v-app dark>
-      <BlogNav/>
-      <router-view/>
-    </v-app>
+  <v-app>
+    <BlogNav/>
+    <!-- Sizes your content based upon application components -->
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-main>
 
-  </div>
+    <v-footer app>
+      <!-- -->
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
