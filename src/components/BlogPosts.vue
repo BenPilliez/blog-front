@@ -1,23 +1,70 @@
 <template>
   <v-row>
+    <v-col cols="4" sm="3">
+      <v-select
+        v-model="pageSize"
+        :items="pageSizes"
+        label="Articles par page"
+        @change="handlePageSizeChange"
+      ></v-select>
+    </v-col>
     <v-col
-      v-for="(item,index, key) in posts"
+      v-for="(item,index) in posts"
       :key="item.id"
+      :lg="index === 0 ? 12 : 4"
+      :md="index === 0 ? 12 : 4"
+      :sm="index === 0 ? 12 : 6"
       cols="12"
-      :lg="key === 0 ? 12 : 4"
-      :md="key === 0 ? 12 : 4"
-      :sm="key === 0 ? 12 : 6"
     >
       <v-card>
         <v-img
           :aspect-ratio="1"
           class="white--text align-end"
-          gradient="to bottom,rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
+          gradient="to bottom,rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          height="200px"
           src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
         >
           <v-card-title>{{ item.title }}</v-card-title>
         </v-img>
+        <v-card-subtitle>
+          <v-icon>mdi-view-list</v-icon>
+          {{ item.Category.name }}
+        </v-card-subtitle>
+        <v-card-text class="text--primary">
+          <div>Whitehaven Beach</div>
+
+          <div>Whitsunday Island, Whitsunday Islands</div>
+        </v-card-text>
+
+        <v-card-subtitle v-if="item.Tags.length > 0 ">
+          <v-icon>mdi-flag</v-icon>
+          <span v-for="tag in item.Tags" :key="tag.id">
+            #{{ tag.name }}
+           </span>
+        </v-card-subtitle>
+
+        <v-card-actions>
+          <v-row justify="center">
+            <v-btn
+              color="blue"
+              icon
+            >
+              <v-icon>mdi-eye</v-icon>
+              Voir
+            </v-btn>
+          </v-row>
+        </v-card-actions>
       </v-card>
+    </v-col>
+    <v-col cols="12">
+      <v-pagination
+        v-model="page"
+        :length="totalPages"
+        next-icon="mdi-menu-right"
+        prev-icon="mdi-menu-left"
+        @input="handlePageChange"
+      >
+      </v-pagination>
     </v-col>
   </v-row>
 </template>
@@ -27,17 +74,65 @@ export default {
   name: 'BlogPosts',
   data () {
     return {
-      posts: null
+      posts: null,
+      totalPages: 0,
+      page: 1,
+      pageSize: 7,
+      pageSizes: [3, 7, 10, 20]
     }
   },
-  beforeMount () {
+  mounted () {
     this.loadPosts()
   },
   methods: {
+    getRequestParams (searchTitle, page, pageSize) {
+      let params = {}
+
+      if (searchTitle) {
+        params['title'] = searchTitle
+      }
+
+      if (page) {
+        params['page'] = page - 1
+      }
+
+      if (pageSize) {
+        params['perPage'] = pageSize
+      }
+
+      return params
+    },
     loadPosts () {
-      this.$store.dispatch('getPosts').then(() => {
-        this.posts = this.$store.getters.posts
-      })
+      const params = this.getRequestParams(
+        this.searchTitle,
+        this.page,
+        this.pageSize
+      )
+
+      const posts = this.$store.getters.posts[this.stringifyParams(params)]
+
+      if (posts !== undefined) {
+        this.posts = posts.items
+        this.totalPages = posts.totalPages
+      } else {
+        this.$store.dispatch('getPosts', params).then((res) => {
+          const posts = this.$store.getters.posts[this.stringifyParams(params)]
+          this.posts = posts.items
+          this.totalPages = posts.totalPages
+        })
+      }
+    },
+    stringifyParams (params) {
+      return JSON.stringify(params)
+    },
+    handlePageChange (value) {
+      this.page = value
+      this.loadPosts()
+    },
+    handlePageSizeChange (size) {
+      this.pageSize = size
+      this.page = 1
+      this.loadPosts()
     }
   }
 }

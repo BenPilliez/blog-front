@@ -9,21 +9,26 @@ const state = {
 }
 const mutations = {
   posts (state, post) {
-    state.posts[post.id] = post
+    state.posts[post.params] = {}
+    state.posts[post.params].items = post.items
+    state.posts[post.params].totalPages = post.totalPages
   }
 }
 const getters = {
   posts: state => state.posts
 }
 const actions = {
-  getPosts ({state, commit, rootState}) {
+  getPosts ({state, commit, rootState}, params) {
     rootState.loading = true
     return new Promise((resolve, reject) => {
-      axios({url: `${process.env.BASE_URL}/api/posts`, method: 'GET', params: {page: 0, perPage: 10}})
+      axios({
+        url: `${process.env.BASE_URL}/api/posts`,
+        method: 'GET',
+        params: {page: params.page, perPage: params.perPage}
+      })
         .then((results) => {
-          results.data.map((post) => {
-            commit('posts', post)
-          })
+          results.data.params = JSON.stringify(params)
+          commit('posts', results.data)
           rootState.loading = false
           resolve(results)
         })
