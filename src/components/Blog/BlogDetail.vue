@@ -1,40 +1,36 @@
 <template>
-  <v-row v-if="post" no-gutters>
-    <v-col cols="12">
-      <v-parallax
-        dark
-        src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            class="text-center"
-            cols="12"
-          >
-            <h1 class="display-1 font-weight-thin mb-4">
-              {{ post.title }}
-            </h1>
-            <h4 class="subheading">
-              Posté par : {{ post.User.firstname }} {{ post.User.lastname }} <br>
-              le: {{
-                formatDate(post.createdAt)
-              }}
-            </h4>
-          </v-col>
-        </v-row>
-      </v-parallax>
-
-    </v-col>
-
-    <v-col cols="12">
-      {{ post.content }}
-    </v-col>
-  </v-row>
+  <div v-if="post">
+    <v-row no-gutters>
+      <v-col cols="12">
+        <BlogHeader>
+          <template v-slot:title>
+            {{ post.title }}
+          </template>
+          <template v-slot:subTitle>
+            Posté par : {{ post.User.firstname }} {{ post.User.lastname }} <br>
+            le: {{
+              formatDate(post.createdAt)
+            }}
+          </template>
+        </BlogHeader>
+      </v-col>
+    </v-row>
+    <v-container class="mt-8">
+      <v-row>
+        <v-btn  class="mx-2" v-for="tag in post.Tags" :key="tag.id" color="orange" elevation="0" rounded>
+          #{{ tag.name }}
+        </v-btn>
+        <v-col cols="12" class="mt-15">
+          <p v-html="post.content"></p>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
+import BlogHeader from './BlogHeader'
+
 export default {
   name: 'BlogDetail',
   data () {
@@ -42,6 +38,7 @@ export default {
       post: null
     }
   },
+  components: {BlogHeader},
   mounted () {
     this.loadPost(this.$route.params.id)
   },
