@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row >
     <v-col cols="4" sm="3">
       <v-select
         v-model="pageSize"
@@ -46,11 +46,10 @@
         <v-card-actions>
           <v-row justify="center">
             <v-btn
-              color="blue"
-              icon
+              :to="{name: 'BlogDetail', params:{id: item.id}}"
+              color="primary"
             >
-              <v-icon>mdi-eye</v-icon>
-              Voir
+              Lire
             </v-btn>
           </v-row>
         </v-card-actions>
@@ -85,13 +84,8 @@ export default {
     this.loadPosts()
   },
   methods: {
-    getRequestParams (searchTitle, page, pageSize) {
+    getRequestParams (page, pageSize) {
       let params = {}
-
-      if (searchTitle) {
-        params['title'] = searchTitle
-      }
-
       if (page) {
         params['page'] = page - 1
       }
@@ -104,19 +98,18 @@ export default {
     },
     loadPosts () {
       const params = this.getRequestParams(
-        this.searchTitle,
         this.page,
         this.pageSize
       )
 
-      const posts = this.$store.getters.posts[this.stringifyParams(params)]
+      const posts = this.$store.getters.postsPaginated[this.stringifyParams(params)]
 
       if (posts !== undefined) {
         this.posts = posts.items
         this.totalPages = posts.totalPages
       } else {
-        this.$store.dispatch('getPosts', params).then((res) => {
-          const posts = this.$store.getters.posts[this.stringifyParams(params)]
+        this.$store.dispatch('paginatePosts', params).then(() => {
+          const posts = this.$store.getters.postsPaginated[this.stringifyParams(params)]
           this.posts = posts.items
           this.totalPages = posts.totalPages
         })

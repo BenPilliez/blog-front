@@ -5,21 +5,25 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 const state = {
+  postsPaginated: {},
   posts: {}
 }
 const mutations = {
+  postsPaging (state, post) {
+    state.postsPaginated[post.params] = {}
+    state.postsPaginated[post.params].items = post.items
+    state.postsPaginated[post.params].totalPages = post.totalPages
+  },
   posts (state, post) {
-    state.posts[post.params] = {}
-    state.posts[post.params].items = post.items
-    state.posts[post.params].totalPages = post.totalPages
+    state.posts[post.id] = post
   }
 }
 const getters = {
+  postsPaginated: state => state.postsPaginated,
   posts: state => state.posts
 }
 const actions = {
-  getPosts ({state, commit, rootState}, params) {
-    rootState.loading = true
+  paginatePosts ({state, commit, rootState}, params) {
     return new Promise((resolve, reject) => {
       axios({
         url: `${process.env.BASE_URL}/api/posts`,
@@ -28,17 +32,24 @@ const actions = {
       })
         .then((results) => {
           results.data.params = JSON.stringify(params)
-          commit('posts', results.data)
-          rootState.loading = false
+          commit('postsPaging', results.data)
           resolve(results)
         })
         .catch((err) => {
           console.error(err)
-          rootState.loading = false
-          rootState.message = {
-            type: 'error',
-            text: 'Oops on a eu un problème pendant le chargement des articles'
-          }
+          reject(err)
+        })
+    })
+  },
+  postById ({state, commit, rootState}, id) {
+    return new Promise((resolve, reject) => {
+      axios({url: `${process.env.BASE_URL}/api/posts/${id}`, method: 'GET'})
+        .then((result) => {
+          commit('posts', result.data)
+          resolve(result)
+        })
+        .catch((err) => {
+          console.error(err)
           reject(err)
         })
     })
