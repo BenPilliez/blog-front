@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import postsStore from './modules/posts'
+import authStore from './modules/auth'
 
 Vue.use(Vuex)
 
@@ -8,26 +9,27 @@ export const store = new Vuex.Store(
   {
     state: {
       loading: false,
-      message: null
+      notification: null
     },
 
     modules: {
-      Posts: postsStore
+      Posts: postsStore,
+      Auth: authStore
     },
     mutations: {
-      message (state, message) {
-        state.message = {
-          type: message.type,
-          text: message.text
+      notification (state, notification) {
+        state.notification = {
+          type: notification.type,
+          text: notification.text
         }
       },
       message_null (state) {
-        state.message = null
+        state.notification = null
       }
     },
 
     getters: {
-      message: state => state.message,
+      notification: state => state.notification,
       loading: state => state.loading
     }
   }

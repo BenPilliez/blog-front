@@ -30,12 +30,12 @@ const actions = {
         method: 'GET',
         params: {page: params.page, perPage: params.perPage}
       })
-        .then((results) => {
+        .then(results => {
           results.data.params = JSON.stringify(params)
           commit('postsPaging', results.data)
           resolve(results)
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           reject(err)
         })
@@ -44,11 +44,11 @@ const actions = {
   postById ({state, commit, rootState}, id) {
     return new Promise((resolve, reject) => {
       axios({url: `${process.env.BASE_URL}/api/posts/${id}`, method: 'GET'})
-        .then((result) => {
+        .then(result => {
           commit('posts', result.data)
           resolve(result)
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           reject(err)
         })
