@@ -37,14 +37,23 @@ const actions = {
           localStorage.setItem('token', JSON.stringify(result.data.token))
           localStorage.setItem('user', JSON.stringify(result.data.user))
           commit('auth_users', result.data.user)
-          rootState.notification = {
-            type: 'success',
-            text: 'Tu peux maintenant poster un article si tu veux'
-          }
+          commit('notification', {
+            color: 'success',
+            icon: 'mdi-check-circle',
+            mode: null,
+            timeout: 6000,
+            text: 'Tu es bien connecté'
+          })
           resolve(result)
         })
         .catch(err => {
-          console.error(err)
+          commit('notification', {
+            color: 'red darken-2',
+            icon: 'mdi-alert-circle',
+            mode: null,
+            timeout: 7500,
+            text: err.response.data.error
+          })
           localStorage.clear()
           reject(err)
         })

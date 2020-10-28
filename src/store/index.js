@@ -19,12 +19,12 @@ export const store = new Vuex.Store(
     mutations: {
       notification (state, notification) {
         state.notification = {
-          type: notification.type,
+          color: notification.color,
+          icon: notification.icon,
+          timeout: notification.timeout,
+          mode: notification.mode,
           text: notification.text
         }
-      },
-      message_null (state) {
-        state.notification = null
       }
     },
 

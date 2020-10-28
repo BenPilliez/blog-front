@@ -2,6 +2,7 @@
   <v-dialog
     v-model="login"
     fullscreen
+    persistent
     transition="dialog-bottom-transition"
   >
     <v-card>
@@ -13,7 +14,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.email"
-                  :rules="[rules.required]"
+                  :rules="[rules.required, rules.email]"
                   label="Email*"
                   required
                 ></v-text-field>
@@ -68,7 +69,11 @@ export default {
         password: null
       },
       rules: {
-        required: value => !!value || 'Required.'
+        required: value => !!value || 'Required.',
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Email au mauvais format.'
+        }
       }
     }
   },
@@ -83,7 +88,9 @@ export default {
       const valid = this.validateForm()
       if (valid) {
         this.$store.dispatch('login', this.form)
-        this.login = false
+          .then(result => {
+            this.login = false
+          })
       }
     }
   }
