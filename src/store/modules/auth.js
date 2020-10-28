@@ -6,15 +6,15 @@ import setAuthorizationToken from '../../helpers/axios'
 Vue.use(Vuex)
 
 const state = {
-  auth_users: JSON.parse(localStorage.getItem('user')) || {}
+  auth_users: JSON.parse(localStorage.getItem('user')) || null
 }
 const mutations = {
   auth_users (state, user) {
-    state.auth_users[user.id] = user
+    state.auth_users = user
   }
 }
 const getters = {
-  auth_users: state => state.auth_user
+  auth_users: state => state.auth_users
 }
 const actions = {
   signup ({commit, state, rootState}, form) {
@@ -58,6 +58,18 @@ const actions = {
           reject(err)
         })
     })
+  },
+  logout ({commit}) {
+    setAuthorizationToken()
+    localStorage.clear()
+    commit('notification', {
+      color: 'success',
+      icon: 'mdi-check-circle',
+      mode: null,
+      timeout: 6000,
+      text: 'Tu es bien déconnecté, à plus !'
+    })
+    commit('auth_users', null)
   }
 }
 

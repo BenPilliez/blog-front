@@ -8,7 +8,7 @@
     temporary
   >
     <v-list
-      v-if="$vuetify.breakpoint.mobile"
+      v-if="$vuetify.breakpoint.mobile && !user"
       densed
       link
       nav
@@ -19,7 +19,7 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-            Se connecter
+          Se connecter
         </v-list-item-content>
       </v-list-item>
 
@@ -32,6 +32,7 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+
     <v-divider></v-divider>
     <v-list
       dense
@@ -55,7 +56,7 @@
     </v-list>
     <template v-if="user" v-slot:append>
       <div class="pa-2">
-        <v-btn block>
+        <v-btn block @click.stop="logout">
           Logout
         </v-btn>
       </div>
@@ -70,12 +71,10 @@ import BlogModalLogin from '../Modal/BlogModalLogin'
 export default {
   name: 'BlogSideBar',
   components: {BlogModalLogin},
-  props: {
-    user: Object
-  },
   data () {
     return {
       drawer: false,
+      user: this.$store.getters.auth_users,
       items: [
         {
           icon: 'mdi-home',
@@ -90,6 +89,13 @@ export default {
       ]
     }
   },
+  created () {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'auth_users') {
+        this.user = state.Auth.auth_users
+      }
+    })
+  },
   methods: {
     openLogin () {
       this.drawer = false
@@ -98,6 +104,9 @@ export default {
     openSignup () {
       this.drawer = false
       this.$root.$children[0].$refs.modalSignup.open()
+    },
+    logout () {
+      this.$store.dispatch('logout')
     }
   }
 }
