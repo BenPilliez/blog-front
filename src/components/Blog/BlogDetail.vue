@@ -7,20 +7,18 @@
             {{ post.title }}
           </template>
           <template v-slot:subTitle>
-            Posté par : {{ post.User.firstname }} {{ post.User.lastname }} <br>
-            le: {{
-              formatDate(post.createdAt)
-            }}
+            Posté par : {{ post.User.fullname }}<br>
+            le: {{ post.createdAt }}
           </template>
         </BlogHeader>
       </v-col>
     </v-row>
     <v-container class="mt-8">
       <v-row>
-        <v-btn  class="mx-2" v-for="tag in post.Tags" :key="tag.id" color="orange" elevation="0" rounded>
+        <v-btn v-for="tag in post.Tags" :key="tag.id" class="mx-2" color="orange" elevation="0" rounded>
           #{{ tag.name }}
         </v-btn>
-        <v-col cols="12" class="mt-15">
+        <v-col class="mt-15" cols="12">
           <p v-html="post.content"></p>
         </v-col>
       </v-row>

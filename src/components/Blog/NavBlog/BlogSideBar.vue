@@ -1,14 +1,14 @@
 <template>
 
   <v-navigation-drawer
-    v-model="drawer"
     app
     dark
-    fixed
-    temporary
+    expand-on-hover
+    permanent
   >
+    <BlogUserNav v-if="user" :user="user"/>
     <v-list
-      v-if="$vuetify.breakpoint.mobile && !user"
+      v-if="!user"
       densed
       link
       nav
@@ -56,9 +56,16 @@
     </v-list>
     <template v-if="user" v-slot:append>
       <div class="pa-2">
-        <v-btn block @click.stop="logout">
-          Logout
-        </v-btn>
+        <v-list
+          nav
+        >
+          <v-list-item @click.stop="logout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content> Déconnexion</v-list-item-content>
+          </v-list-item>
+        </v-list>
       </div>
     </template>
 
@@ -66,14 +73,13 @@
 </template>
 
 <script>
-import BlogModalLogin from '../Modal/BlogModalLogin'
+import BlogUserNav from './BlogUserNav'
 
 export default {
   name: 'BlogSideBar',
-  components: {BlogModalLogin},
+  components: {BlogUserNav},
   data () {
     return {
-      drawer: false,
       user: this.$store.getters.auth_users,
       items: [
         {
@@ -84,7 +90,7 @@ export default {
         {
           icon: 'mdi-post',
           text: 'Articles',
-          path: '/posts'
+          path: '/articles'
         }
       ]
     }
@@ -98,15 +104,16 @@ export default {
   },
   methods: {
     openLogin () {
-      this.drawer = false
       this.$root.$children[0].$refs.modalLogin.open()
     },
     openSignup () {
-      this.drawer = false
       this.$root.$children[0].$refs.modalSignup.open()
     },
     logout () {
       this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/')
+        })
     }
   }
 }

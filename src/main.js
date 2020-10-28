@@ -10,7 +10,6 @@ import './assets/scss/app.scss'
 
 Vue.config.productionTip = false
 
-// eslint-disable-next-line no-unused-vars
 const token = localStorage.getItem('token')
 
 if (token) {
@@ -34,8 +33,15 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (!localStorage.getItem('auth_user')) {
-      next('/login')
+    if (!localStorage.getItem('user')) {
+      store.commit('notification', {
+        color: 'red darken-2',
+        icon: 'mdi-alert-circle',
+        mode: null,
+        timeout: 7500,
+        text: 'Tu as oublié de te connecter'
+      })
+      next('/')
     } else {
       next() // go to wherever I'm going
     }

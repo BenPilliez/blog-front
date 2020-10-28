@@ -5,10 +5,10 @@
     <v-main>
       <Snackbar/>
       <router-view></router-view>
+      <BlogModalLogin ref="modalLogin"/>
+      <BlogModalSignUp ref="modalSignup"/>
+      <BlogFooter/>
     </v-main>
-    <BlogModalLogin ref="modalLogin"/>
-    <BlogModalSignUp ref="modalSignup"/>
-    <BlogFooter/>
   </v-app>
 </template>
 

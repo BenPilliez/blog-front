@@ -4,7 +4,7 @@
     :multi-line="mode === 'multi-line'"
     :timeout="timeout"
     :value="value"
-    bottom
+    top
     right
   >
     <v-icon class="pr-3" dark large>{{ icon }}</v-icon>

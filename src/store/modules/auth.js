@@ -34,7 +34,7 @@ const actions = {
       axios({url: `${process.env.BASE_URL}/api/auth/login`, data: form, method: 'POST'})
         .then(result => {
           setAuthorizationToken(result.data.token)
-          localStorage.setItem('token', JSON.stringify(result.data.token))
+          localStorage.setItem('token', result.data.token)
           localStorage.setItem('user', JSON.stringify(result.data.user))
           commit('auth_users', result.data.user)
           commit('notification', {
@@ -56,6 +56,25 @@ const actions = {
           })
           localStorage.clear()
           reject(err)
+        })
+    })
+  },
+  account ({commit, state}) {
+    return new Promise((resolve, reject) => {
+      axios({url: `${process.env.BASE_URL}/api/auth/account`, method: 'GET'})
+        .then((result) => {
+          commit('users', result.data)
+          resolve(result)
+        })
+        .catch((err) => {
+          console.error(err)
+          commit('notification', {
+            color: 'red darken-2',
+            icon: 'mdi-alert-circle',
+            mode: null,
+            timeout: 7500,
+            text: err.response.data.error
+          })
         })
     })
   },
