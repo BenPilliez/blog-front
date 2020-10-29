@@ -1,5 +1,4 @@
 'use strict'
-var dotenv = require('dotenv').config()
 const path = require('path')
 const utils = require('./utils')
 const webpack = require('webpack')
@@ -12,8 +11,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-
-console.log(dotenv)
 const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -33,7 +30,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': dotenv.parsed
+      'process.env': env
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
