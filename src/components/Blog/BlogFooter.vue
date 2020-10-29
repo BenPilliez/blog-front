@@ -2,38 +2,43 @@
   <v-footer
     padless
   >
-    <v-card
-      class="text-center"
-      flat
-      tile
-    >
-      <v-card-text>
-        <v-btn
-          v-for="icon in icons"
-          :key="icon.id"
-          :href="icon.href"
-          class="mx-4"
-          icon
-          link
-          target="_blank"
+    <v-row>
+      <v-col cols="12">
+        <v-card
+          class="text-center"
+          flat
+          tile
         >
-          <v-icon size="24px">
-            {{ icon.icon }}
-          </v-icon>
-        </v-btn>
-      </v-card-text>
+          <v-card-text>
+            <v-btn
+              v-for="icon in icons"
+              :key="icon.id"
+              :href="icon.href"
+              class="mx-4"
+              icon
+              link
+              target="_blank"
+            >
+              <v-icon size="24px">
+                {{ icon.icon }}
+              </v-icon>
+            </v-btn>
+          </v-card-text>
 
-      <v-card-text class=" pt-0">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cupiditate dolore ea enim est fugit inventore ipsum
-        nisi, nulla optio pariatur placeat quaerat qui quos sequi sit totam unde, velit!
-      </v-card-text>
+          <v-card-text class=" pt-0">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cupiditate dolore ea enim est fugit inventore
+            ipsum
+            nisi, nulla optio pariatur placeat quaerat qui quos sequi sit totam unde, velit!
+          </v-card-text>
 
-      <v-divider></v-divider>
+          <v-divider></v-divider>
 
-      <v-card-text >
-        {{ new Date().getFullYear() }} — <strong>BenPilliez</strong>
-      </v-card-text>
-    </v-card>
+          <v-card-text>
+            {{ new Date().getFullYear() }} — <strong>BenPilliez</strong>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-footer>
 </template>
 
