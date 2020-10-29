@@ -71,8 +71,9 @@
 import BlogUserNav from './BlogUserNav'
 
 export default {
-  name: 'BlogSideBar',
+  name: 'BlogSideBarMobile',
   components: {BlogUserNav},
+  drawer: false,
   data () {
     return {
       user: this.$store.getters.auth_users,
@@ -99,9 +100,11 @@ export default {
   },
   methods: {
     openLogin () {
+      this.drawer = false
       this.$root.$children[0].$refs.modalLogin.open()
     },
     openSignup () {
+      this.drawer = false
       this.$root.$children[0].$refs.modalSignup.open()
     },
     logout () {
