@@ -1,4 +1,5 @@
 'use strict'
+var dotenv = require('dotenv').config()
 const path = require('path')
 const utils = require('./utils')
 const webpack = require('webpack')
@@ -10,9 +11,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-var dotenv = require('dotenv').config()
 
 
+console.log(dotenv)
 const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
