@@ -3,7 +3,7 @@
     <BlogToolBar v-if="$vuetify.breakpoint.mobile"
                  @toggle-drawer="$refs.drawer.drawer = !$refs.drawer.drawer"></BlogToolBar>
     <BlogSideBarMobile v-if="$vuetify.breakpoint.mobile" ref="drawer" :user="user"></BlogSideBarMobile>
-    <BlogSideBar v-if="$vuetify.breakpoint.lg" :user="user"></BlogSideBar>
+    <BlogSideBar v-if="!$vuetify.breakpoint.mobile" :user="user"></BlogSideBar>
   </div>
 </template>
 
