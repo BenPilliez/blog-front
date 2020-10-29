@@ -10,7 +10,7 @@
     <BlogUserNav v-if="user" :user="user"/>
 
     <v-list
-      v-if="!user"
+      v-if="  !user"
       densed
       link
       nav
@@ -68,14 +68,15 @@
 </template>
 
 <script>
+import BlogModalLogin from '../Modal/BlogModalLogin'
 import BlogUserNav from './BlogUserNav'
 
 export default {
-  name: 'BlogSideBarMobile',
-  components: {BlogUserNav},
-  drawer: false,
+  name: 'BlogSideBar',
+  components: {BlogModalLogin, BlogUserNav},
   data () {
     return {
+      drawer: false,
       user: this.$store.getters.auth_users,
       items: [
         {
@@ -86,7 +87,7 @@ export default {
         {
           icon: 'mdi-post',
           text: 'Articles',
-          path: '/articles'
+          path: '/posts'
         }
       ]
     }
@@ -109,9 +110,6 @@ export default {
     },
     logout () {
       this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/')
-        })
     }
   }
 }
