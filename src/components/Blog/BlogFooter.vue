@@ -2,7 +2,7 @@
   <v-footer
     padless
   >
-    <v-row>
+    <v-row no-gutters>
       <v-col cols="12">
         <v-card
           class="text-center"
