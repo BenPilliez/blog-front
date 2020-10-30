@@ -10,7 +10,7 @@
     <BlogUserNav v-if="user" :user="user"/>
 
     <v-list
-      v-if="  !user"
+      v-if=" !user"
       densed
       link
       nav
@@ -56,14 +56,6 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <template v-if="user" v-slot:append>
-      <div class="pa-2">
-        <v-btn block @click.stop="logout">
-          Logout
-        </v-btn>
-      </div>
-    </template>
-
   </v-navigation-drawer>
 </template>
 
@@ -87,7 +79,7 @@ export default {
         {
           icon: 'mdi-post',
           text: 'Articles',
-          path: '/posts'
+          path: '/articles'
         }
       ]
     }
@@ -107,9 +99,6 @@ export default {
     openSignup () {
       this.drawer = false
       this.$root.$children[0].$refs.modalSignup.open()
-    },
-    logout () {
-      this.$store.dispatch('logout')
     }
   }
 }

@@ -24,7 +24,6 @@ const getters = {
 }
 const actions = {
   paginatePosts ({state, commit, rootState}, params) {
-    console.log(process.env)
     return new Promise((resolve, reject) => {
       axios({
         url: `${process.env.BASE_URL}/api/posts`,

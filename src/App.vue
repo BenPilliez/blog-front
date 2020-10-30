@@ -2,7 +2,7 @@
   <v-app dark>
     <BlogNav/>
     <!-- Sizes your content based upon application components -->
-    <v-main>
+    <v-main class="pa-0">
       <Snackbar/>
       <router-view></router-view>
       <BlogModalLogin ref="modalLogin"/>
