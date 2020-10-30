@@ -6,6 +6,9 @@
           <span class="text--white headline ">{{ user.initial }}</span>
         </v-avatar>
       </v-list-item-avatar>
+      <v-btn v-if="showBtnLogout" color="red" fab icon large @click.stop="logout">
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
     </v-list-item>
     <v-list-item :to="{name: 'userAccount'}" link>
       <v-list-item-content>
@@ -24,6 +27,33 @@ export default {
   name: 'BlogUserNav',
   props: {
     user: Object
+  },
+  data () {
+    return {
+      showBtnLogout: false
+    }
+  },
+  created () {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'auth_users') {
+        this.showBtnLogout = true
+      }
+    })
+
+    if (localStorage.getItem('user')) {
+      this.showBtnLogout = true
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+        .then(() => {
+          if (this.$route.name !== 'Home') {
+            this.$router.push('/')
+          }
+          this.showBtnLogout = false
+        })
+    }
   }
 }
 </script>

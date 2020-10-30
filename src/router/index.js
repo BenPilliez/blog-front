@@ -5,6 +5,9 @@ import BlogPosts from '@/components/Blog/BlogPosts'
 import BlogDetail from '@/components/Blog/BlogDetail'
 import BlogUserProfile from '@/components/Blog/BlogUserProfile'
 import UserAccount from '../components/Blog/UserAccount'
+import User from '../components/Blog/User'
+import BlogAddPost from '../components/Blog/BlogAddPost'
+import BlogEditPost from '../components/Blog/BlogEditPost'
 
 Vue.use(Router)
 
@@ -27,8 +30,24 @@ export default new Router({
     },
     {
       path: '/mon-compte',
-      name: 'userAccount',
-      component: UserAccount,
+      component: User,
+      children: [
+        {
+          path: '',
+          name: 'userAccount',
+          component: UserAccount
+        },
+        {
+          path: '/mon-compte/article',
+          name: 'addPost',
+          component: BlogAddPost
+        },
+        {
+          path: '/mon-compte/article/edit/:id',
+          name: 'editPost',
+          component: BlogEditPost
+        }
+      ],
       meta: {requiresAuth: true}
     },
     {

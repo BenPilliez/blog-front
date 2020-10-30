@@ -15,7 +15,7 @@
     <v-container
       class="mx-auto"
       max-width="400">
-      <v-row dense>
+      <v-row dense justify="space-around">
         <v-col cols="4" sm="3">
           <v-select
             v-if="this.posts.length > 0"
@@ -24,6 +24,12 @@
             label="Articles par page"
             @change="handlePageSizeChange"
           ></v-select>
+        </v-col>
+        <v-col cols="4" sm="3">
+          <v-btn :to="{name: 'addPost'}">
+            <v-icon>mdi-plus-circle-outline</v-icon>
+            Créer un article
+          </v-btn>
         </v-col>
         <v-col
           v-for="post in posts"
@@ -41,10 +47,14 @@
                   v-text="post.title"
                 ></v-card-title>
 
-                <v-card-subtitle v-text="post.createdAt"></v-card-subtitle>
+                <v-card-subtitle>
+                  <span>Créer le :</span>
+                  {{ post.createdAt }}
+                </v-card-subtitle>
 
                 <v-card-actions>
                   <v-btn
+                    :to="{name: 'editPost', params: {id: post.id}}"
                     class="ml-2 mt-3"
                     fab
                     height="40px"
@@ -52,7 +62,7 @@
                     right
                     width="40px"
                   >
-                    <v-icon>mdi-play</v-icon>
+                    <v-icon>mdi-update</v-icon>
                   </v-btn>
                 </v-card-actions>
               </div>
@@ -90,36 +100,22 @@ import paginate from '../../helpers/paginate'
 export default {
   name: 'UserAccount',
   components: {BlogHeader},
+  props: {
+    user: Object
+  },
   data () {
     return {
-      user: null,
-      posts: null,
+      posts: this.user.Posts,
       page: 1,
       totalPages: 0,
       pageSize: 7,
       pageSizes: [3, 7, 10, 20]
     }
   },
-  beforeMount () {
-    this.loadAccount()
-  },
   methods: {
     handlePageChange (value) {
       this.page = value
       this.paginateArray()
-    },
-    loadAccount () {
-      const authId = this.$store.getters.auth_users.id
-      if (this.$store.getters.users[authId] !== undefined) {
-        this.user = this.$store.getters.users[authId]
-        this.paginateArray()
-      } else {
-        this.$store.dispatch('account')
-          .then(() => {
-            this.user = this.$store.getters.users[authId]
-            this.paginateArray()
-          })
-      }
     },
     paginateArray () {
       this.posts = paginate(this.user.Posts, this.pageSize, this.page)
