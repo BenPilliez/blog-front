@@ -21,6 +21,13 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios({url: `${process.env.BASE_URL}/api/auth/signup`, data: form, method: 'POST'})
         .then(result => {
+          commit('notification', {
+            color: 'success',
+            icon: 'mdi-check-circle',
+            mode: null,
+            timeout: 6000,
+            text: 'Ton compte est créé'
+          })
           resolve(result)
         })
         .catch(err => {

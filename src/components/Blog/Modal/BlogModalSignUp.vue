@@ -32,6 +32,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.email"
+                  :error-messages="errors.email"
                   :rules="[rules.required, rules.email]"
                   clearable
                   label="Email*"
@@ -79,7 +80,7 @@
         <v-spacer></v-spacer>
         <v-btn
           color="primary"
-          @click="signup = false"
+          @click="signup = false; $refs.form.reset()"
         >
           Fermer
         </v-btn>
@@ -95,6 +96,8 @@
 </template>
 
 <script>
+import errors from '../../../helpers/errors'
+
 export default {
   name: 'BlogModalLogin',
   data () {
@@ -103,6 +106,9 @@ export default {
       showConfirm: false,
       valid: false,
       signup: false,
+      errors: {
+        email: null
+      },
       form: {
         firstname: '',
         lastname: '',
@@ -142,7 +148,15 @@ export default {
       const valid = this.validateForm()
       if (valid) {
         this.$store.dispatch('signup', this.form)
-        this.signup = false
+          .then(() => {
+            this.signup = false
+          })
+          .catch((err) => {
+            let error = err.response.data.errors
+            if (error) {
+              errors(this.errors, error)
+            }
+          })
       }
     }
   }
