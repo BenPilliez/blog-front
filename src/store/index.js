@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import postsStore from './modules/posts'
 import authStore from './modules/auth'
 import usersStore from './modules/users'
+import categoriesStore from './modules/categories'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export const store = new Vuex.Store(
     modules: {
       Posts: postsStore,
       Auth: authStore,
-      Users: usersStore
+      Users: usersStore,
+      Categories: categoriesStore
     },
     mutations: {
       notification (state, notification) {

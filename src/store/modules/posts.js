@@ -53,6 +53,45 @@ const actions = {
           reject(err)
         })
     })
+  },
+  addPost ({commit}, form) {
+    return new Promise((resolve, reject) => {
+      console.log(form)
+      if (form.isFormData) {
+        console.log('allo')
+        axios.headers = {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      axios({
+        url: `${process.env.BASE_URL}/api/posts`,
+        data: form.form,
+        method: 'POST'
+      })
+        .then((result) => {
+          commit('posts', result)
+          commit('notification', {
+            color: 'success',
+            icon: 'mdi-check-circle',
+            mode: null,
+            timeout: 6000,
+            text: 'Merci pour ta contribution'
+          })
+
+          resolve(result)
+        })
+        .catch((err) => {
+          console.log(err)
+          commit('notification', {
+            color: 'red darken-2',
+            icon: 'mdi-alert-circle',
+            mode: 'multiline',
+            timeout: 7500,
+            text: 'Oops on a un problème, check le form ou alors j\'ai fait une connerie'
+          })
+          reject(err)
+        })
+    })
   }
 }
 

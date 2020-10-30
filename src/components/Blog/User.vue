@@ -12,6 +12,9 @@ export default {
       user: this.loadAccount()
     }
   },
+  beforeMount () {
+    this.loadAccount()
+  },
   methods: {
     loadAccount () {
       const authId = this.$store.getters.auth_users.id
