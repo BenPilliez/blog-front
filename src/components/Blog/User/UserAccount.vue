@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import BlogHeader from './BlogHeader'
-import paginate from '../../helpers/paginate'
+import BlogHeader from '../BlogHeader'
+import paginate from '../../../helpers/paginate'
 
 export default {
   name: 'UserAccount',

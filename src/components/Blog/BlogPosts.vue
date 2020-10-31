@@ -32,11 +32,24 @@
         >
           <v-card>
             <v-img
+              v-if="!item.imageUrl"
               :aspect-ratio="1"
               class="white--text align-end"
               gradient="to bottom,rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
-              src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+              src="../static/img/material.jpg"
+            >
+
+              <v-card-title>{{ item.title }}</v-card-title>
+            </v-img>
+
+            <v-img
+              v-if="item.imageUrl !== undefined"
+              :aspect-ratio="1"
+              :src="loadImage(item.imageUrl[0])"
+              class="white--text align-end"
+              gradient="to bottom,rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
             >
               <v-card-title>{{ item.title }}</v-card-title>
             </v-img>
@@ -103,6 +116,9 @@ export default {
     this.loadPosts()
   },
   methods: {
+    loadImage (name) {
+      return `${process.env.BASE_URL}/static/images/${name}`
+    },
     getRequestParams (page, pageSize) {
       let params = {}
       if (page) {

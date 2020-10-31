@@ -14,11 +14,23 @@
       </v-col>
     </v-row>
     <v-container class="mt-8">
+      <v-carousel v-if="post.imageUrl && post.imageUrl.length > 0">
+        <v-carousel-item
+          v-for="(item,i) in post.imageUrl"
+          :key="i"
+          :src="loadImage(item)"
+          cycle
+        ></v-carousel-item>
+      </v-carousel>
+
       <v-row>
-        <v-btn v-for="tag in post.Tags" :key="tag.id" class="mx-2" color="orange" elevation="0" rounded>
-          #{{ tag.name }}
-        </v-btn>
-        <v-col class="mt-15" cols="12">
+        <v-col cols="12">
+          <v-btn v-for="tag in post.Tags"
+                 :key="tag.id" class="mx-2" color="orange" elevation="0" rounded>
+            #{{ tag.name }}
+          </v-btn>
+        </v-col>
+        <v-col cols="12">
           <p v-html="post.content"></p>
         </v-col>
       </v-row>
@@ -46,6 +58,9 @@ export default {
     }
   },
   methods: {
+    loadImage (name) {
+      return `${process.env.BASE_URL}/static/images/${name}`
+    },
     loadPost (id) {
       const post = this.$store.getters.posts[id]
 
