@@ -26,9 +26,13 @@
           ></v-select>
         </v-col>
         <v-col cols="4" sm="3">
-          <v-btn :to="{name: 'addPost'}">
+          <v-btn v-if="$vuetify.breakpoint.mobile" :to="{name: 'addPost'}">
             <v-icon>mdi-plus-circle-outline</v-icon>
             Créer un article
+          </v-btn>
+
+          <v-btn v-if="$vuetify.breakpoint.xsOnly" large :to="{name: 'addPost'}" icon>
+            <v-icon>mdi-plus-circle-outline</v-icon>
           </v-btn>
         </v-col>
         <v-col
@@ -111,6 +115,9 @@ export default {
       pageSize: 7,
       pageSizes: [3, 7, 10, 20]
     }
+  },
+  beforeMount () {
+    this.paginateArray()
   },
   methods: {
     handlePageChange (value) {

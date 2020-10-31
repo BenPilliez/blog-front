@@ -164,27 +164,35 @@ export default {
         if (this.form.files) {
           let formData = new FormData()
           for (let key of Object.keys(this.form)) {
-            formData.append(key, this.form[key])
+            if (typeof this.form[key] === 'object') {
+              this.form.files.map((item) => {
+                formData.append('files', item, item.name)
+              })
+            } else {
+              formData.append(key, this.form[key])
+            }
           }
           form = formData
           isFormData = true
         }
         this.$store.dispatch('addPost', {form: form, isFormData: isFormData})
-          .then(() => {
+          .then((result) => {
             this.errors = {
               title: '',
               content: '',
               files: '',
               categoriesId: ''
             }
+            this.form.content = ''
             this.$refs.form.reset()
+            this.user.Posts.push(result.data)
+            this.$store.commit('posts', result.data)
           })
           .catch((err) => {
             let error = err.response.data.errors
             if (error) {
               errors(this.errors, error)
             }
-            console.log(this.errors)
           })
       }
     }

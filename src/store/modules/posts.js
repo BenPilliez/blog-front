@@ -56,9 +56,7 @@ const actions = {
   },
   addPost ({commit}, form) {
     return new Promise((resolve, reject) => {
-      console.log(form)
       if (form.isFormData) {
-        console.log('allo')
         axios.headers = {
           'Content-Type': 'multipart/form-data'
         }
